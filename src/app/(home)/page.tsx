@@ -1,5 +1,9 @@
-import Main from '@/components/Main'
+import MoviesList from './components/MoviesList'
 
 export default function Home() {
-  return <Main />
+  return (
+    <div>
+      <MoviesList />
+    </div>
+  )
 }
