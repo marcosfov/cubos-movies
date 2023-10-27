@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Abel } from 'next/font/google'
 
-import StyledComponentsRegistry from '@/lib/registry'
-import { Providers } from './providers'
+import GlobalStyles from '@/styles/global'
+import Providers from './providers'
+import Header from '@/components/ui/Header'
 
-const inter = Inter({ subsets: ['latin'] })
+const abel = Abel({ subsets: ['latin'], weight: '400' })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,10 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <StyledComponentsRegistry>
-          <Providers>{children}</Providers>
-        </StyledComponentsRegistry>
+      <body className={abel.className}>
+        <Providers>
+          <GlobalStyles />
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   )

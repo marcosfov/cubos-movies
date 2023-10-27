@@ -1,12 +1,18 @@
+'use client'
 import { PropsWithChildren } from 'react'
+import { ThemeProvider } from 'styled-components'
 
-import GlobalStyles from '@/styles/global'
+import StyledComponentsRegistry from '@/lib/registry'
+import theme from '@/styles/theme'
 
-export function Providers({ children }: PropsWithChildren) {
+const Providers = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <GlobalStyles />
-      {children}
+      <StyledComponentsRegistry>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      </StyledComponentsRegistry>
     </>
   )
 }
+
+export default Providers
