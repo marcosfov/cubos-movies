@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import Image from 'next/image'
 
 import { MovieDetails } from '@/types/moviesTypes'
 import * as S from './styles'
-import Image from 'next/image'
-import OvalShape from '@/components/OvalShape'
-import RoundBadge from '@/components/RoundBadge'
+import OvalShape from '@/components/ui/OvalShape'
+import RoundBadge from '@/components/ui/RoundBadge'
+import helpers from '@/utils/helpers'
 
 interface MovieDetailsCardProps {
   movieId: string
@@ -21,12 +22,6 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
 
   function returnDefaultText(text: any) {
     return text ? text : 'N/A'
-  }
-
-  function returnPercentageText(number: number) {
-    const rouded = Math.round(number * 10)
-    const stringPercentage = `${rouded}%`
-    return stringPercentage
   }
 
   async function getMovieDetails() {
@@ -95,17 +90,23 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
 
                   <S.InfosContent>
                     <S.InfoTitle>Orçamento</S.InfoTitle>
-                    <S.InfoText>${movie.budget}</S.InfoText>
+                    <S.InfoText>
+                      {helpers.formatCurrencyUSD(movie.budget)}
+                    </S.InfoText>
                   </S.InfosContent>
 
                   <S.InfosContent>
                     <S.InfoTitle>Receita</S.InfoTitle>
-                    <S.InfoText>${movie.revenue}</S.InfoText>
+                    <S.InfoText>
+                      {helpers.formatCurrencyUSD(movie.revenue)}
+                    </S.InfoText>
                   </S.InfosContent>
 
                   <S.InfosContent>
                     <S.InfoTitle>Lucro</S.InfoTitle>
-                    <S.InfoText>${movie.revenue - movie.budget}</S.InfoText>
+                    <S.InfoText>
+                      {helpers.formatCurrencyUSD(movie.revenue - movie.budget)}
+                    </S.InfoText>
                   </S.InfosContent>
                 </S.InfosContainer>
               </section>
@@ -120,7 +121,7 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
 
                   <div>
                     <RoundBadge
-                      text={returnPercentageText(movie.vote_average)}
+                      text={helpers.returnPercentageText(movie.vote_average)}
                       size="lg"
                     />
                   </div>
@@ -133,6 +134,18 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
                 <Image
                   src={imageUrl + movie.poster_path}
                   alt={movie.title}
+                  sizes="100vw"
+                  width={300}
+                  height={500}
+                />
+              </S.ImageContainer>
+            )}
+
+            {!movie.poster_path && (
+              <S.ImageContainer>
+                <Image
+                  src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
+                  alt="no image"
                   sizes="100vw"
                   width={300}
                   height={500}

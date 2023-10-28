@@ -7,9 +7,18 @@ interface Props {
 }
 
 const SizeModifiers = {
-  sm: 50,
-  md: 80,
-  lg: 100
+  sm: {
+    width: 50,
+    font: '1rem'
+  },
+  md: {
+    width: 70,
+    font: '1.5rem'
+  },
+  lg: {
+    width: 100,
+    font: '2rem'
+  }
 }
 
 export const External = styled.div<Props>`
@@ -17,8 +26,8 @@ export const External = styled.div<Props>`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: ${SizeModifiers[size]}px;
-    height: ${SizeModifiers[size]}px;
+    width: ${SizeModifiers[size].width}px;
+    height: ${SizeModifiers[size].width}px;
     border-radius: 50%;
     border: 3px solid ${theme.colors.primary};
     background-color: ${theme.colors.pool};
@@ -27,15 +36,15 @@ export const External = styled.div<Props>`
 
 export const Internal = styled(External)`
   ${({ theme, size }) => css`
-    width: ${SizeModifiers[size] * 0.8}px;
-    height: ${SizeModifiers[size] * 0.8}px;
+    width: ${SizeModifiers[size].width * 0.8}px;
+    height: ${SizeModifiers[size].width * 0.8}px;
     background-color: ${theme.colors.primary};
   `}
 `
 
-export const Text = styled.span`
-  ${({ theme }) => css`
-    font-size: 2rem;
+export const Text = styled.span<Props>`
+  ${({ theme, size }) => css`
+    font-size: ${SizeModifiers[size].font};
     color: ${theme.colors.pool};
     text-align: center;
   `}

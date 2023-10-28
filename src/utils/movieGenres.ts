@@ -1,0 +1,21 @@
+export const GENRES = [
+  { id: 28, name: 'ação' },
+  { id: 12, name: 'aventura' },
+  { id: 16, name: 'animação' },
+  { id: 35, name: 'comédia' },
+  { id: 80, name: 'crime' },
+  { id: 99, name: 'documentário' },
+  { id: 18, name: 'drama' },
+  { id: 10751, name: 'família' },
+  { id: 14, name: 'fantasia' },
+  { id: 36, name: 'história' },
+  { id: 27, name: 'terror' },
+  { id: 10402, name: 'música' },
+  { id: 9648, name: 'mistério' },
+  { id: 10749, name: 'romance' },
+  { id: 878, name: 'ficção científica' },
+  { id: 10770, name: 'cinema tv' },
+  { id: 53, name: 'thriller' },
+  { id: 10752, name: 'guerra' },
+  { id: 37, name: 'faroeste' }
+]
