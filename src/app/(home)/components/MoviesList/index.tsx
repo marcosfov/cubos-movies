@@ -32,8 +32,6 @@ const MoviesList = () => {
     getPopularMovies()
   }, [])
 
-  console.log('filmes', movies)
-
   return (
     <S.Wrapper>
       {movies.map((movie) => (

@@ -1,7 +1,5 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-
-import { Movie } from '@/types/moviesTypes'
+import MovieDetailsCard from './components/MovieDetailsCard'
+import * as S from './styles'
 
 interface MovieDetailsPage {
   params: {
@@ -10,31 +8,12 @@ interface MovieDetailsPage {
 }
 
 const MovieDetailsPage = async ({ params }: MovieDetailsPage) => {
-  const [movie, setMovie] = useState<Movie | null>(null)
-
-  async function getPopularMovies() {
-    try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/popular?language=pt-BR&page=1`,
-        {
-          params: {
-            api_key
-          }
-        }
-      )
-
-      setMovies(response.data.results)
-      setMovie(response.data.results[0])
-    } catch (error) {
-      console.error('Error fetching movies:', error)
-    }
-  }
-
-  useEffect(() => {
-    getPopularMovies()
-  }, [])
-
-  return <h1>{params.movieId}</h1>
+  return (
+    <S.Wrapper>
+      {params.movieId && <MovieDetailsCard movieId={params.movieId} />}
+      {!params.movieId && <p>Filme não encontrado!</p>}
+    </S.Wrapper>
+  )
 }
 
 export default MovieDetailsPage

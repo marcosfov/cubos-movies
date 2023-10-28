@@ -2,7 +2,8 @@ const theme = {
   colors: {
     primary: '#116193',
     secondary: '#06bbc9',
-    gray: '#efefef'
+    gray: '#efefef',
+    pool: '#00e8e4'
   },
   spacings: {
     xxsmall: '0.8rem',
