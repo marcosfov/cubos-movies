@@ -9,6 +9,7 @@ import * as S from './styles'
 import OvalShape from '@/components/ui/OvalShape'
 import RoundBadge from '@/components/ui/RoundBadge'
 import helpers from '@/utils/helpers'
+import { Loading } from '@/components/ui/Loading'
 
 interface MovieDetailsCardProps {
   movieId: string
@@ -16,7 +17,8 @@ interface MovieDetailsCardProps {
 
 const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
   const [movie, setMovie] = useState<MovieDetails | null>(null)
-  // const [movieVideo, setMovieVideo] = useState('')
+  const [mediaSize, setMediaSize] = useState<'sm' | 'md' | 'lg'>('lg')
+  const [loading, setLoading] = useState(false)
   const api_key = process.env.NEXT_PUBLIC_TMDB_API_KEY
   const imageUrl = process.env.NEXT_PUBLIC_TMDB_IMG
 
@@ -25,6 +27,7 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
   }
 
   async function getMovieDetails() {
+    setLoading(true)
     try {
       const response = await axios.get(
         `https://api.themoviedb.org/3/movie/${movieId}?language=pt-BR&append_to_response=videos`,
@@ -38,6 +41,8 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
       setMovie(response.data)
     } catch (error) {
       console.error('Error fetching movies:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -45,11 +50,31 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
     getMovieDetails()
   }, [])
 
-  console.log('movie', movie)
+  useEffect(() => {
+    const handleResize = () => {
+      const larguraTela = window.innerWidth
 
+      if (larguraTela <= 550) {
+        setMediaSize('sm')
+      } else if (larguraTela <= 850) {
+        setMediaSize('md')
+      } else {
+        setMediaSize('lg')
+      }
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
   return (
     <>
-      {movie && (
+      {loading && <Loading />}
+      {!loading && movie && (
         <S.Wrapper>
           <S.TitleContainer>
             <S.Title>{returnDefaultText(movie.title)}</S.Title>
@@ -85,7 +110,9 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
 
                   <S.InfosContent>
                     <S.InfoTitle>Duração</S.InfoTitle>
-                    <S.InfoText>{returnDefaultText(movie.runtime)}</S.InfoText>
+                    <S.InfoText>
+                      {helpers.minutesToHour(movie.runtime)}
+                    </S.InfoText>
                   </S.InfosContent>
 
                   <S.InfosContent>
@@ -122,7 +149,7 @@ const MovieDetailsCard = ({ movieId }: MovieDetailsCardProps) => {
                   <div>
                     <RoundBadge
                       text={helpers.returnPercentageText(movie.vote_average)}
-                      size="lg"
+                      size={mediaSize !== 'lg' ? 'md' : 'lg'}
                     />
                   </div>
                 </S.GenreContainer>

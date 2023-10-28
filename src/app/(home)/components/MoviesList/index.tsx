@@ -8,11 +8,13 @@ import MovieCard from '../MovieCard'
 import { Movie } from '@/types/moviesTypes'
 import SearchInput from '@/components/SearchInput'
 import { GENRES } from '@/utils/movieGenres'
+import { Loading } from '@/components/ui/Loading'
 
 const MoviesList = () => {
   const [movies, setMovies] = useState<Movie[]>([])
   const [filterByGenre, setFilterByGenre] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [loading, setLoading] = useState(false)
   const api_key = process.env.NEXT_PUBLIC_TMDB_API_KEY
 
   const handleFilterChange = () => {
@@ -25,17 +27,18 @@ const MoviesList = () => {
     setFilterByGenre(updatedFilterByGenre)
   }
 
-  const handleSeachInput = (searchTerm: string) => {
+  const handleSeachInput = async (searchTerm: string) => {
     setSearchTerm(searchTerm.toLocaleLowerCase())
 
-    if (!searchTerm) getPopularMovies()
+    if (!searchTerm) return setMovies([])
 
     searchTerm && filterByGenre
-      ? getMoviesByGenre(searchTerm)
-      : getMoviesByQuery(searchTerm)
+      ? await getMoviesByGenre(searchTerm)
+      : await getMoviesByQuery(searchTerm)
   }
 
   async function getPopularMovies() {
+    setLoading(true)
     try {
       const response = await axios.get(
         `https://api.themoviedb.org/3/movie/popular?language=pt-BR&page=1`,
@@ -48,10 +51,13 @@ const MoviesList = () => {
       setMovies(response.data.results)
     } catch (error) {
       console.error('Error fetching movies:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
   const getMoviesByQuery = async (searchTerm: string) => {
+    setLoading(true)
     try {
       const response = await axios.get(
         `https://api.themoviedb.org/3/search/movie?language=pt-BR&query=${searchTerm}&page=1&include_adult=false&with_genres=${searchTerm}`,
@@ -63,16 +69,18 @@ const MoviesList = () => {
       )
 
       setMovies(response.data.results)
-      console.log('moviesQuery', movies)
     } catch (error) {
       console.error('Error fetching movies:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
   const getMoviesByGenre = async (searchTerm: string) => {
     const selectGenre = GENRES.find((genre) => genre.name.includes(searchTerm))
 
-    if (!selectGenre) return
+    if (!selectGenre) return setMovies([])
+    setLoading(true)
     try {
       const response = await axios.get(
         `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=1&sort_by=popularity.desc&with_genres=${selectGenre.id}`,
@@ -84,9 +92,10 @@ const MoviesList = () => {
       )
 
       setMovies(response.data.results)
-      console.log('moviesgenre', movies)
     } catch (error) {
       console.error('Error fetching movies:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -111,9 +120,19 @@ const MoviesList = () => {
           Filtrar por Gênero
         </S.Checkbox>
       </S.SeachContent>
-      {movies.map((movie) => (
-        <MovieCard movie={movie} key={movie.id} />
-      ))}
+
+      {loading && <Loading />}
+      {!loading && (
+        <>
+          {movies.length <= 0 && searchTerm && (
+            <p>Ops! Parece que não encontramos nada para "{searchTerm}"</p>
+          )}
+
+          {movies.map((movie) => (
+            <MovieCard movie={movie} key={movie.id} />
+          ))}
+        </>
+      )}
     </S.Wrapper>
   )
 }
