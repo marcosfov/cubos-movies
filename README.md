@@ -1,6 +1,6 @@
-Aplicação NextJS responsivo que consume a API do The Movie DB (TMDB) e permite buscar e ver detalhes de filmes de seu catálogo.
+# Aplicação NextJS responsivo que consume a API do The Movie DB (TMDB) e permite buscar e ver detalhes de filmes de seu catálogo.
 
-Sobre o projeto
+# Sobre o projeto
 
 O projeto faz o consumo da API do TMDB para retornar filmes. A página inicial já traz os filmes mais populares de acordo com a votação dos usuários da plataforma TMDB. Além disso, o pode-se fazer a busca por nome ou por gênero, para isso basta fazer a pesquisa e pressionar a tecla Enter para obter os resultados por nome e caso deseje os resultados por gênero deve-se selecionar o checkbox "Filtrar por gênero", em ambos os casos resulta em 5 filmes por página.
 
@@ -8,7 +8,7 @@ Em cada filme é exibido o nome, cartaz, data de lançamento, sinopse, pontuaç�
 
 Caso o usuário queira retornar à página inicial, basta clicar em "Voltar" e assim pode pesquisar outros filmes.
 
-🚀 Tecnologias utilizadas
+# 🚀 Tecnologias utilizadas
 
 - [TypeScript](https://www.typescriptlang.org/)
 - [NextJS](https://nextjs.org/)
@@ -16,34 +16,41 @@ Caso o usuário queira retornar à página inicial, basta clicar em "Voltar" e a
 - [Eslint](https://eslint.org/)
 - [Prettier](https://prettier.io/)
 
-💻 Getting started
+# 💻 Getting started
 
-Requisitos
-Solicitar KEY da API em TheMovieDB
+## Requisitos
+
+Solicitar KEY da API em TheMovieDB - [Documentação do TMDb](https://developer.themoviedb.org/docs/getting-started)
+
 Clone o projeto e acesse a pasta
 
-$ git clone https://github.com/charleseduardome/TheMovieDB.git
-Siga os passos abaixo
+$ git clone [https://github.com/marcosfov/cubos-movies.git
 
-# Instale as dependências
+# Siga os passos abaixo
+
+## Instale as dependências
 
 $ npm i
 
-# Faça uma cópia do arquivo '.env.example' para '.env.local'
+## Faça uma cópia do arquivo '.env.example' para '.env.local'
 
 $ cp .env.example .env.local
 
-# Insira sua Key cadastrada no TheMovieDB no valor da variável NEXT_PUBLIC_TMDB_API_KEY
+Insira sua Key cadastrada no TheMovieDB no valor da variável NEXT_PUBLIC_TMDB_API_KEY
 
-# Comandos
+## Comandos
 
 -dev: Inicia o servidor de desenvolvimento do Next.js.
+
 -build: Compila e gera a produção.
+
 -generate: Gera código automaticamente com Plop.
+
 -start: Inicia o servidor de produção.
+
 -lint: Executa a análise estática de código para encontrar problemas no código-fonte.
 
-# Start
+## Start
 
 $ npm run dev
 
