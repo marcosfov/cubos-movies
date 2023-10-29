@@ -38,3 +38,23 @@ export const Checkbox = styled.div`
     margin-right: 0.5rem;
   }
 `
+
+export const ButtonsContainer = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+      border: none;
+      cursor: pointer;
+    }
+  `}
+`
+
+export const ButtonNumber = styled.span`
+  ${({ theme }) => css`
+    font-size: 1rem;
+    color: ${theme.colors.primary};
+  `}
+`
